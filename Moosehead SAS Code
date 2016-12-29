@@ -1,0 +1,256 @@
+/* Code for the experiment with the advanced player */
+
+DM "output;clear;log;clear";
+Options pagesize = 45 linesize = 80 PageNo = 1 NoDate;
+
+/* Pick the file path and the name of the output file. */
+ODS RTF File = "F:\STAT530\Final Project\eric.doc"; 
+ODS Listing Close;								
+
+/* Input data for the advanced player */
+Data eric;
+ input A B C Y;
+       AB =  A  * B; 
+       AC =  A  * C; 
+       BC =  B  * C; 
+       ABC = AB * C;
+ Datalines;
+  -1 -1	-1	2
+  -1 -1	-1	9
+  -1 -1	-1	5
+  -1 -1	 1	5
+  -1 -1	 1	11
+  -1 -1	 1	13
+  -1  1	-1	11
+  -1  1	-1	14
+  -1  1	-1	12
+  -1  1	 1	10
+  -1  1	 1	13
+  -1  1	 1	13
+   1 -1	-1	6
+   1 -1	-1	8
+   1 -1	-1	2
+   1 -1	 1	0
+   1 -1	 1	7
+   1 -1	 1	12
+   1  1	-1	7
+   1  1	-1	10
+   1  1	-1	0
+   1  1	 1	0
+   1  1	 1	10
+   1  1	 1	0
+;
+
+/* Compute the ranked normal scores by residuals */
+proc rank normal = vw;
+ var Y;
+ ranks nscore; 
+run;
+
+/* Plot the ranked residual vs. normal score */
+proc gplot ;
+ plot Y * nscore;
+ label nscore = 'Normal Score'; 
+run;
+
+proc glm data = eric; 
+ class A B C AB AC BC ABC;
+ model Y = A B C AB AC BC ABC;
+run;
+
+/* Levene's test for Factor A */
+proc glm data = eric;
+ class A;
+ model Y = A;
+ means A / hovtest = levene;
+run;
+
+/*Levene's test for Factor B*/
+proc glm data = eric;
+ class B;
+ model Y = B;
+ means B / hovtest = levene;
+run;
+
+/*Levene's test for Factor C*/
+proc glm data = eric;
+ class C;
+ model Y = C;
+ means C / hovtest = levene;
+run;
+
+ODS Listing;
+ODS RTF Close;
+
+/***************************************************************************************************************/
+/***************************************************************************************************************/
+/* Code for the experiment with the intermediate player */
+
+DM "output;clear;log;clear";
+Options pagesize = 45 linesize = 80 PageNo = 1 NoDate;
+
+/* Pick the file path and the name of the output file. */
+ODS RTF File = "F:\STAT530\Final Project\eric.doc"; 
+ODS Listing Close;								
+
+/* Input data for the intermediate player */								
+Data kevin;
+ input A B C Y;
+	   AB  = A  * B; 
+	   AC  = A  * C; 
+	   BC  = B  * C; 
+	   ABC = AB * C;
+ Datalines;
+  -1 -1	-1	12
+  -1 -1	-1	11
+  -1 -1	-1	9
+  -1 -1	 1	0
+  -1 -1	 1	5
+  -1 -1	 1	5
+  -1  1	-1	15
+  -1  1	-1	8
+  -1  1	-1	7
+  -1  1	 1	12
+  -1  1	 1	17
+  -1  1	 1	9
+   1 -1	-1	11
+   1 -1	-1	3
+   1 -1	-1	5
+   1 -1	 1	12
+   1 -1	 1	6
+   1 -1	 1	0
+   1  1	-1	14
+   1  1	-1	0
+   1  1	-1	7
+   1  1	 1	11
+   1  1	 1	2
+   1  1	 1	6
+;
+
+/* Compute the ranked normal scores by residuals */
+proc rank normal = vw;
+ var Y;
+ ranks nscore; 
+run;
+
+/* Plot the ranked residual vs. normal score */
+proc gplot ;
+ plot Y * nscore;
+ label nscore = 'Normal Score'; 
+run;
+
+proc glm data = kevin; 
+ class A B C AB AC BC ABC;
+ model Y = A B C AB AC BC ABC;
+run;
+
+/* Levene's test for Factor A */
+proc glm data = kevin;
+ class A;
+ model Y = A;
+ means A / hovtest = levene;
+run;
+
+/*Levene's test for Factor B*/
+proc glm data = kevin;
+ class B;
+ model Y = B;
+ means B / hovtest = levene;
+run;
+
+/*Levene's test for Factor C*/
+proc glm data = kevin;
+ class C;
+ model Y = C;
+ means C / hovtest = levene;
+run;
+
+ODS Listing;
+ODS RTF Close;
+
+/***************************************************************************************************************/
+/***************************************************************************************************************/
+
+/* Code for the experiment with the beginner player */
+
+DM "output;clear;log;clear";
+Options pagesize = 45 linesize = 80 PageNo = 1 NoDate;
+
+/* Pick the file path and the name of the output file. */
+ODS RTF File = "F:\STAT530\Final Project\eric.doc"; 
+ODS Listing Close;								
+
+/* Input data for the beginner player */								
+Data mandy;
+ input A B C Y;
+       AB =  A  * B; 
+       AC =  A  * C; 
+       BC =  B  * C; 
+       ABC = AB * C;
+ Datalines;
+  -1 -1	-1	18
+  -1 -1	-1	9
+  -1 -1	-1	9
+  -1 -1	 1	7
+  -1 -1	 1	6
+  -1 -1	 1	11
+  -1  1	-1	14
+  -1  1	-1	10
+  -1  1	-1	5
+  -1  1	 1	11
+  -1  1	 1	5
+  -1  1	 1	17
+   1 -1	-1	4
+   1 -1	-1	10
+   1 -1	-1	7
+   1 -1	 1	0
+   1 -1	 1	7
+   1 -1	 1	0
+   1  1	-1	13
+   1  1	-1	3
+   1  1	-1	4
+   1  1	 1	13
+   1  1	 1	0
+   1  1	 1	0
+;
+
+/* Compute the ranked normal scores by residuals */
+proc rank normal = vw;
+ var Y;
+ ranks nscore; 
+run;
+
+/* Plot the ranked residual vs. normal score */
+proc gplot ;
+ plot Y * nscore;
+ label nscore = 'Normal Score'; 
+run;
+
+proc glm data = mandy; 
+ class A B C AB AC BC ABC;
+ model Y = A B C AB AC BC ABC;
+run;
+
+/* Levene's test for Factor A */
+proc glm data = mandy;
+ class A;
+ model Y = A;
+ means A / hovtest = levene;
+run;
+
+/*Levene's test for Factor B*/
+proc glm data = mandy;
+ class B;
+ model Y = B;
+ means B / hovtest = levene;
+run;
+
+/*Levene's test for Factor C*/
+proc glm data = mandy;
+ class C;
+ model Y = C;
+ means C / hovtest = levene;
+run;
+
+ODS Listing;
+ODS RTF Close;
